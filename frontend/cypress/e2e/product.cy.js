@@ -13,6 +13,9 @@ const EDIT_PRICE_PATH = 'html > body > div:nth-of-type(2) > div > div:nth-of-typ
 const EDIT_DESCRIPTION_PATH = 'html > body > div:nth-of-type(2) > div > div:nth-of-type(3) > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > div > form > div:nth-of-type(1) > div:nth-of-type(5) > div > div:nth-of-type(2) > div > div > textarea';
 const EDIT_REF_PATH = '';
 const SAVE_BUTTON_PATH = 'html > body > div:nth-of-type(2) > div > div:nth-of-type(3) > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > div > form > div:nth-of-type(2) > div > div > div > div > button > span';
+const REMOVE_PRODUCT_PATH = 'html > body > div:nth-of-type(2) > div > div:nth-of-type(3) > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div > div > div:nth-of-type(1) > div:nth-of-type(2) > button:nth-of-type(1) > span:nth-of-type(2)';
+const DELETE_CONFIRMATION_BUTTON = 'html > body > div:nth-of-type(6) > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(3) > button:nth-of-type(2)';
+
 describe('ST-007',() =>{
     beforeEach(() => {
         cy.visit('http://localhost:3000/login');
@@ -130,6 +133,33 @@ describe('ST-008',() =>{
         cy.get(EDIT_PRICE_PATH).clear().type('abcdeefgh');
         cy.get(EDIT_DESCRIPTION_PATH).clear().type('This is new and improved description');
         cy.get(SAVE_BUTTON_PATH).click();
+    });
+})
+
+
+describe('ST-009', () => {
+    beforeEach(() => {
+        cy.visit('http://localhost:3000/login');
+        cy.get('#normal_login_email').type('admin@demo.com');
+        cy.get('#normal_login_password').type('admin123');
+        cy.get('form').submit();
+        cy.wait(1000);
+        cy.visit('http://localhost:3000/product');
+        cy.contains('button', 'Add New Product', {timeout: 10000}).click();
+    });
+
+    it('ST9-CT001', () => {
+        cy.get(SEARCH_PRODUCT_PATH).type('ProductB');
+        cy.wait(1000);
+        cy.focused().type('{downarrow}');
+        cy.focused().type('{enter}');
+        cy.get(REMOVE_PRODUCT_PATH).click();
+        cy.wait(1000);
+        cy.focused().type('{enter}', {force: true});
+        // FIXME not working
+        // cy.get('.ant-modal-content') // Select the dialog
+        //     .find('button') // Find the button within the dialog
+        //     .click({force: true}); // Click the button
     });
 })
 
