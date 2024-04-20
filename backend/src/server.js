@@ -15,10 +15,7 @@ require('dotenv').config({ path: '.env' });
 require('dotenv').config({ path: '.env.local' });
 
 
-const {MongoMemoryServer} = require("mongodb-memory-server");
-
-const dburl = process.env.NODE_ENV === 'test' ? await MongoMemoryServer.create() : process.env.DATABASE
-mongoose.connect(dburl);
+mongoose.connect(process.env.DATABASE);
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 mongoose.connection.on('error', (error) => {

@@ -2,10 +2,7 @@ require('dotenv').config({ path: '.env' });
 require('dotenv').config({ path: '.env.local' });
 
 const mongoose = require('mongoose');
-const {MongoMemoryServer} = require("mongodb-memory-server");
-
-const dburl = process.env.NODE_ENV === 'test' ? await MongoMemoryServer.create() : process.env.DATABASE
-mongoose.connect(dburl);
+mongoose.connect(process.env.DATABASE);
 
 async function deleteData() {
   const Admin = require('../models/coreModels/Admin');

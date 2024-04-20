@@ -3,11 +3,9 @@ require('dotenv').config({ path: '.env.local' });
 const { globSync } = require('glob');
 const fs = require('fs');
 const { generate: uniqueId } = require('shortid');
-const { MongoMemoryServer } = require('mongodb-memory-server');
 
 const mongoose = require('mongoose');
-const dburl = process.env.NODE_ENV === 'test' ? await MongoMemoryServer.create() : process.env.DATABASE
-mongoose.connect(dburl);
+mongoose.connect(process.env.DATABASE);
 
 async function setupApp() {
   try {

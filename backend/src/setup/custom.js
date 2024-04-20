@@ -5,10 +5,8 @@ const fs = require('fs');
 const { generate: uniqueId } = require('shortid');
 
 const mongoose = require('mongoose');
-const {MongoMemoryServer} = require("mongodb-memory-server");
 
-const dburl = process.env.NODE_ENV === 'test' ? await MongoMemoryServer.create() : process.env.DATABASE
-mongoose.connect(dburl);
+mongoose.connect(process.env.DATABASE);
 
 async function setupApp() {
   try {
