@@ -1,10 +1,10 @@
-const search = require('../src/controllers/middlewaresControllers/createCRUDController/search')
+const filter = require('../src/controllers/middlewaresControllers/createCRUDController/filter')
 
 const {MongoMemoryServer} = require("mongodb-memory-server");
 const mongoose = require("mongoose");
 const Email = require("../src/models/coreModels/Email")
 
-describe('search function ', () => {
+describe('filter function ', () => {
     let mongo
     let mockedRes
     let mockedReq
@@ -16,18 +16,6 @@ describe('search function ', () => {
         mongo = await MongoMemoryServer.create()
 
         await mongoose.connect(mongo.getUri());
-        mockedReq = {
-            query: {
-                fields: null,
-                q: null
-            }
-        }
-        mockedRes = {
-            status: jest.fn().mockReturnThis(),
-            json: jest.fn().mockReturnThis(),
-            end: jest.fn().mockReturnThis()
-
-        }
     })
     beforeEach(async () => {
         const emailData = [
@@ -56,15 +44,15 @@ describe('search function ', () => {
 
         mockedReq = {
             query: {
-                fields: null,
-                q: null
+                filter: null,
+                equal: null
             }
         }
         mockedRes = {
             status: jest.fn().mockReturnThis(),
-            json: jest.fn().mockReturnThis(),
-            end: jest.fn().mockReturnThis()
+            json: jest.fn().mockReturnThis()
         }
+
         await Email.deleteMany({})
         await Email.create(emailData)
     })
@@ -72,55 +60,54 @@ describe('search function ', () => {
         await mongoose.disconnect()
         await mongo.stop()
     })
-    it('should search for emails by emailSubject', async () => {
-        mockedReq.query.fields = 'emailSubject'
-        mockedReq.query.q = 'Subject One'
-        await search(Email, mockedReq, mockedRes)
+    it('should return a filter for emails found by by emailSubject', async () => {
+        mockedReq.query.filter = 'emailSubject'
+        mockedReq.query.equal = 'Subject One'
+        await filter(Email, mockedReq, mockedRes)
         expect(mockedRes.json).toBeCalledWith(expect.objectContaining({
                 success: true,
-                result: expect.arrayContaining([expect.anything()]),
-                message: 'Successfully found all documents',
+                result: expect.anything(),
+                message: 'Successfully found all documents  ',
             }
         ))
         expect(mockedRes.status).toBeCalledWith(200)
         const result = mockedRes.json.mock.calls[0][0].result;
         expect(result.length).toBe(3);
+
     });
 
-    it('should return 202 when no email is found', async () => {
-        mockedReq.query.fields = 'emailSubject'
-        mockedReq.query.q = 'hello'
-        await search(Email, mockedReq, mockedRes)
+    it('should return 203 when no email is found', async () => {
+        mockedReq.query.filter = 'emailSubject'
+        mockedReq.query.equal = ''
+        await filter(Email, mockedReq, mockedRes)
         expect(mockedRes.json).toBeCalledWith(expect.objectContaining({
                 success: false,
                 result: [],
-                message: 'No document found by this request',
+                message: 'Collection is Empty',
             }
         ))
-        expect(mockedRes.status).toBeCalledWith(202)
+        expect(mockedRes.status).toBeCalledWith(203)
         const result = mockedRes.json.mock.calls[0][0].result;
         expect(result.length).toBe(0);
     });
 
-    it('should handle error in query input', async () => {
-        mockedReq.query = null
-        await expect(search(Email, mockedReq, mockedRes)).rejects.toThrow("additional query parameters missing");
-    });
 
-    it('should find results by name when query.fields = null', async () => {
-        mockedReq.query = {
-            fields:null,
-            q:''
-        }
-        await search(Email,mockedReq,mockedRes)
+    it('should handle error when filter is null', async () => {
+        mockedReq.query.filter = undefined
+        await filter(Email, mockedReq, mockedRes)
         expect(mockedRes.json).toBeCalledWith(expect.objectContaining({
                 success: false,
-                result: [],
-                message: 'No document found by this request',
+                result: null,
+                message: 'filter not provided correctly',
             }
         ))
-        expect(mockedRes.status).toBeCalledWith(202)
-        const result = mockedRes.json.mock.calls[0][0].result;
-        expect(result.length).toBe(0)
+
+        expect(mockedRes.status).toBeCalledWith(403)
     });
+
+    it('should handle error in query input', async () => {
+        mockedReq.query = null
+        await expect(filter(Email, mockedReq, mockedRes)).rejects.toThrow("additional query parameters missing");
+    });
+
 })

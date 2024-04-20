@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1713635300130" clover="3.2.0">
-  <project timestamp="1713635300130" name="All files">
-    <metrics statements="135" coveredstatements="76" conditionals="40" coveredconditionals="10" methods="20" coveredmethods="4" elements="195" coveredelements="90" complexity="0" loc="135" ncloc="135" packages="3" files="12" classes="12"/>
+<coverage generated="1713644145891" clover="3.2.0">
+  <project timestamp="1713644145892" name="All files">
+    <metrics statements="135" coveredstatements="119" conditionals="40" coveredconditionals="30" methods="20" coveredmethods="10" elements="195" coveredelements="159" complexity="0" loc="135" ncloc="135" packages="3" files="12" classes="12"/>
     <package name="controllers.middlewaresControllers.createCRUDController">
-      <metrics statements="106" coveredstatements="47" conditionals="40" coveredconditionals="10" methods="19" coveredmethods="3"/>
+      <metrics statements="106" coveredstatements="90" conditionals="40" coveredconditionals="30" methods="19" coveredmethods="9"/>
       <file name="create.js" path="C:\Users\sif\Desktop\mgl846\idurar-erp-crm\backend\src\controllers\middlewaresControllers\createCRUDController\create.js">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="2" type="stmt"/>
@@ -67,87 +67,87 @@
         <line num="40" count="2" type="stmt"/>
       </file>
       <file name="paginatedList.js" path="C:\Users\sif\Desktop\mgl846\idurar-erp-crm\backend\src\controllers\middlewaresControllers\createCRUDController\paginatedList.js">
-        <metrics statements="18" coveredstatements="2" conditionals="12" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="3" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="6" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="8" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="12" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="32" count="0" type="stmt"/>
-        <line num="39" count="0" type="stmt"/>
-        <line num="42" count="0" type="stmt"/>
-        <line num="45" count="0" type="stmt"/>
-        <line num="46" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="47" count="0" type="stmt"/>
-        <line num="54" count="0" type="stmt"/>
-        <line num="63" count="1" type="stmt"/>
+        <metrics statements="18" coveredstatements="18" conditionals="12" coveredconditionals="9" methods="1" coveredmethods="1"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="3" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="6" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="8" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="12" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="14" count="2" type="stmt"/>
+        <line num="15" count="2" type="stmt"/>
+        <line num="19" count="2" type="stmt"/>
+        <line num="32" count="2" type="stmt"/>
+        <line num="39" count="2" type="stmt"/>
+        <line num="42" count="2" type="stmt"/>
+        <line num="45" count="2" type="stmt"/>
+        <line num="46" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="47" count="1" type="stmt"/>
+        <line num="54" count="1" type="stmt"/>
+        <line num="63" count="2" type="stmt"/>
       </file>
       <file name="read.js" path="C:\Users\sif\Desktop\mgl846\idurar-erp-crm\backend\src\controllers\middlewaresControllers\createCRUDController\read.js">
-        <metrics statements="6" coveredstatements="2" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="8" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="24" count="1" type="stmt"/>
+        <metrics statements="6" coveredstatements="6" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="3" count="3" type="stmt"/>
+        <line num="8" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="24" count="2" type="stmt"/>
       </file>
       <file name="remove.js" path="C:\Users\sif\Desktop\mgl846\idurar-erp-crm\backend\src\controllers\middlewaresControllers\createCRUDController\remove.js">
-        <metrics statements="7" coveredstatements="2" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="15" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
-        <line num="30" count="1" type="stmt"/>
+        <metrics statements="7" coveredstatements="7" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="3" count="3" type="stmt"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="15" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="30" count="2" type="stmt"/>
       </file>
       <file name="search.js" path="C:\Users\sif\Desktop\mgl846\idurar-erp-crm\backend\src\controllers\middlewaresControllers\createCRUDController\search.js">
-        <metrics statements="10" coveredstatements="2" conditionals="4" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="13" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
-        <line num="30" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="31" count="0" type="stmt"/>
-        <line num="37" count="0" type="stmt"/>
-        <line num="48" count="1" type="stmt"/>
+        <metrics statements="10" coveredstatements="10" conditionals="4" coveredconditionals="4" methods="1" coveredmethods="1"/>
+        <line num="1" count="3" type="stmt"/>
+        <line num="13" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="15" count="3" type="stmt"/>
+        <line num="17" count="3" type="stmt"/>
+        <line num="18" count="3" type="stmt"/>
+        <line num="22" count="3" type="stmt"/>
+        <line num="30" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="37" count="2" type="stmt"/>
+        <line num="48" count="3" type="stmt"/>
       </file>
       <file name="summary.js" path="C:\Users\sif\Desktop\mgl846\idurar-erp-crm\backend\src\controllers\middlewaresControllers\createCRUDController\summary.js">
-        <metrics statements="8" coveredstatements="2" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="16" count="0" type="cond" truecount="0" falsecount="2"/>
+        <metrics statements="8" coveredstatements="7" conditionals="2" coveredconditionals="1" methods="1" coveredmethods="1"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="3" count="3" type="stmt"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="14" count="2" type="stmt"/>
+        <line num="16" count="2" type="cond" truecount="1" falsecount="1"/>
         <line num="17" count="0" type="stmt"/>
-        <line num="23" count="0" type="stmt"/>
-        <line num="31" count="1" type="stmt"/>
+        <line num="23" count="2" type="stmt"/>
+        <line num="31" count="2" type="stmt"/>
       </file>
       <file name="update.js" path="C:\Users\sif\Desktop\mgl846\idurar-erp-crm\backend\src\controllers\middlewaresControllers\createCRUDController\update.js">
-        <metrics statements="7" coveredstatements="2" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="8" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="23" count="1" type="stmt"/>
+        <metrics statements="7" coveredstatements="7" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="3" count="3" type="stmt"/>
+        <line num="4" count="3" type="stmt"/>
+        <line num="8" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="23" count="2" type="stmt"/>
       </file>
     </package>
     <package name="models.coreModels">
       <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="Email.js" path="C:\Users\sif\Desktop\mgl846\idurar-erp-crm\backend\src\models\coreModels\Email.js">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="1" count="3" type="stmt"/>
-        <line num="3" count="3" type="stmt"/>
-        <line num="47" count="3" type="stmt"/>
+        <line num="1" count="9" type="stmt"/>
+        <line num="3" count="9" type="stmt"/>
+        <line num="47" count="9" type="stmt"/>
       </file>
     </package>
     <package name="models.utils">

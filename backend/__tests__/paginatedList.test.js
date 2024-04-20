@@ -1,10 +1,11 @@
-const search = require('../src/controllers/middlewaresControllers/createCRUDController/search')
+const paginatedList = require('../src/controllers/middlewaresControllers/createCRUDController/paginatedList')
 
 const {MongoMemoryServer} = require("mongodb-memory-server");
 const mongoose = require("mongoose");
 const Email = require("../src/models/coreModels/Email")
+const search = require("@/controllers/middlewaresControllers/createCRUDController/search");
 
-describe('search function ', () => {
+describe('paginatedList function ', () => {
     let mongo
     let mockedRes
     let mockedReq
@@ -18,15 +19,15 @@ describe('search function ', () => {
         await mongoose.connect(mongo.getUri());
         mockedReq = {
             query: {
+                page: null,
+                items: null,
                 fields: null,
                 q: null
-            }
+            },
         }
         mockedRes = {
             status: jest.fn().mockReturnThis(),
-            json: jest.fn().mockReturnThis(),
-            end: jest.fn().mockReturnThis()
-
+            json: jest.fn().mockReturnThis()
         }
     })
     beforeEach(async () => {
@@ -42,28 +43,29 @@ describe('search function ', () => {
                 emailKey: 'email2',
                 emailName: 'Email Two',
                 emailBody: 'Body Two',
-                emailSubject: 'Subject One',
+                emailSubject: 'Subject Two',
                 created: new Date(2021, 0, 2)
             },
             {
                 emailKey: 'email3',
                 emailName: 'Email Three',
                 emailBody: 'Body Three',
-                emailSubject: 'Subject One',
+                emailSubject: 'Subject Three',
                 created: new Date(2021, 0, 3)
             },
         ];
 
         mockedReq = {
             query: {
+                page: null,
+                items: null,
                 fields: null,
                 q: null
-            }
+            },
         }
         mockedRes = {
             status: jest.fn().mockReturnThis(),
-            json: jest.fn().mockReturnThis(),
-            end: jest.fn().mockReturnThis()
+            json: jest.fn().mockReturnThis()
         }
         await Email.deleteMany({})
         await Email.create(emailData)
@@ -72,55 +74,48 @@ describe('search function ', () => {
         await mongoose.disconnect()
         await mongo.stop()
     })
-    it('should search for emails by emailSubject', async () => {
+    it('should search and paginatedList an email by id', async () => {
         mockedReq.query.fields = 'emailSubject'
-        mockedReq.query.q = 'Subject One'
-        await search(Email, mockedReq, mockedRes)
+        mockedReq.query.q = 'Subject'
+        mockedReq.query.items = 2
+        await paginatedList(Email, mockedReq, mockedRes)
         expect(mockedRes.json).toBeCalledWith(expect.objectContaining({
                 success: true,
                 result: expect.arrayContaining([expect.anything()]),
+                pagination: expect.anything(),
                 message: 'Successfully found all documents',
             }
         ))
         expect(mockedRes.status).toBeCalledWith(200)
         const result = mockedRes.json.mock.calls[0][0].result;
-        expect(result.length).toBe(3);
+        expect(result.length).toBe(2);
+
     });
 
-    it('should return 202 when no email is found', async () => {
+    it('should return 203 when email is not found', async () => {
+
         mockedReq.query.fields = 'emailSubject'
-        mockedReq.query.q = 'hello'
-        await search(Email, mockedReq, mockedRes)
+        mockedReq.query.q = 'never'
+        mockedReq.query.items = 2
+        await paginatedList(Email, mockedReq, mockedRes)
         expect(mockedRes.json).toBeCalledWith(expect.objectContaining({
-                success: false,
+                success: true,
                 result: [],
-                message: 'No document found by this request',
+                pagination :expect.anything(),
+                message: 'Collection is Empty',
             }
         ))
-        expect(mockedRes.status).toBeCalledWith(202)
+        expect(mockedRes.status).toBeCalledWith(203)
         const result = mockedRes.json.mock.calls[0][0].result;
+        console.log(result)
         expect(result.length).toBe(0);
+
+
     });
 
-    it('should handle error in query input', async () => {
+    it('should handle error in id input', async () => {
         mockedReq.query = null
-        await expect(search(Email, mockedReq, mockedRes)).rejects.toThrow("additional query parameters missing");
+        await expect(paginatedList(Email, mockedReq, mockedRes)).rejects.toThrow("Invalid query value");
     });
 
-    it('should find results by name when query.fields = null', async () => {
-        mockedReq.query = {
-            fields:null,
-            q:''
-        }
-        await search(Email,mockedReq,mockedRes)
-        expect(mockedRes.json).toBeCalledWith(expect.objectContaining({
-                success: false,
-                result: [],
-                message: 'No document found by this request',
-            }
-        ))
-        expect(mockedRes.status).toBeCalledWith(202)
-        const result = mockedRes.json.mock.calls[0][0].result;
-        expect(result.length).toBe(0)
-    });
 })
