@@ -18,7 +18,7 @@ describe('listAll funtion ', () => {
         await mongoose.connect(mongo.getUri());
         mockedReq = {
             query: {
-                sort: "-1"
+                sort: null
             }
         }
         mockedRes = {
@@ -80,7 +80,7 @@ describe('listAll funtion ', () => {
         });
     });
     it('should return the results in order desc', async () => {
-        mockedReq.query.sort = null
+        mockedReq.query.sort = 'desc'
         await listAll(Email, mockedReq, mockedRes)
         const result = mockedRes.json.mock.calls[0][0].result;
         expect(result[0].emailName).toBe('Email Three');
@@ -89,11 +89,22 @@ describe('listAll funtion ', () => {
     });
 
     it('should return the results in order asc', async () => {
-        mockedReq.query.sort = '1'
+        mockedReq.query.sort = 'asc'
         await listAll(Email, mockedReq, mockedRes)
         const result = mockedRes.json.mock.calls[0][0].result;
-        expect(result[2].emailName).toBe('Email One');
+        expect(result[0].emailName).toBe('Email One');
         expect(result[1].emailName).toBe('Email Two');
-        expect(result[0].emailName).toBe('Email Three');
+        expect(result[2].emailName).toBe('Email Three');
+    });
+    it('should handle error in sort input', async () => {
+        mockedReq.query.sort = 'hello'
+        mockedReq.query.enabled = null
+        await expect(listAll(Email,mockedReq,mockedRes)).rejects.toThrow("Invalid sort value: { created: hello }");
+    });
+
+    it('should handle error in enabled input', async () => {
+        mockedReq.query.sort = null
+        mockedReq.query.enabled = 'hello'
+        await expect(listAll(Email,mockedReq,mockedRes)).rejects.toThrow("Invalid sort value: { enabled: hello }");
     });
 })

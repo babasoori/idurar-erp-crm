@@ -23,10 +23,16 @@ describe('createCRUDController function', () => {
         await mongo.stop()
     })
     it('should create crud methods for email model', async () => {
-        const crudMethods = createCRUDController('Email')
-        expect(crudMethods).toEqual(expect.objectContaining({
-            create: expect.anything()
-        }))
+        const controller = createCRUDController('Email')
+        expect(controller.read).toBeDefined();
+        expect(controller.update).toBeDefined();
+        expect(controller.delete).toBeDefined();
+        expect(controller.list).toBeDefined();
+        expect(controller.listAll).toBeDefined();
+        expect(controller.search).toBeDefined();
+        expect(controller.filter).toBeDefined();
+        expect(controller.summary).toBeDefined();
+
     });
 
     it('should raise an error when model is not found', () => {
