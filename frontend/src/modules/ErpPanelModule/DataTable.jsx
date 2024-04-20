@@ -7,10 +7,13 @@ import {
   RedoOutlined,
   PlusOutlined,
   EllipsisOutlined,
+  ArrowRightOutlined,
+  ArrowLeftOutlined,
 } from '@ant-design/icons';
 import { Dropdown, Table, Button } from 'antd';
 import { PageHeader } from '@ant-design/pro-layout';
 
+import AutoCompleteAsync from '@/components/AutoCompleteAsync';
 import { useSelector, useDispatch } from 'react-redux';
 import useLanguage from '@/locale/useLanguage';
 import { erp } from '@/redux/erp/actions';
@@ -20,6 +23,7 @@ import { generate as uniqueId } from 'shortid';
 import { useNavigate } from 'react-router-dom';
 
 import { DOWNLOAD_BASE_URL } from '@/config/serverApiConfig';
+import { selectLangDirection } from '@/redux/translate/selectors';
 
 function AddNewItem({ config }) {
   const navigate = useNavigate();
@@ -38,7 +42,7 @@ function AddNewItem({ config }) {
 
 export default function DataTable({ config, extra = [] }) {
   const translate = useLanguage();
-  let { entity, dataTableColumns, disableAdd = false } = config;
+  let { entity, dataTableColumns, disableAdd = false, searchConfig } = config;
 
   const { DATATABLE_TITLE } = config;
 
@@ -165,18 +169,39 @@ export default function DataTable({ config, extra = [] }) {
     };
   }, []);
 
+  const filterTable = (value) => {
+    const options = { equal: value, filter: searchConfig?.entity };
+    dispatch(erp.list({ entity, options }));
+  };
+  const langDirection=useSelector(selectLangDirection)
+
   return (
     <>
       <PageHeader
         title={DATATABLE_TITLE}
         ghost={true}
+        onBack={() => window.history.back()}
+        backIcon={langDirection==="rtl"?<ArrowRightOutlined/>:<ArrowLeftOutlined />}
         extra={[
-          <Button onClick={handelDataTableLoad} key={`${uniqueId()}`} icon={<RedoOutlined />} />,
+          <AutoCompleteAsync
+            key={`${uniqueId()}`}
+            entity={searchConfig?.entity}
+            displayLabels={['name']}
+            searchFields={'name'}
+            onChange={filterTable}
+            // redirectLabel={'Add New Client'}
+            // withRedirect
+            // urlToRedirect={'/customer'}
+          />,
+          <Button onClick={handelDataTableLoad} key={`${uniqueId()}`} icon={<RedoOutlined />}>
+            {translate('Refresh')}
+          </Button>,
 
           !disableAdd && <AddNewItem config={config} key={`${uniqueId()}`} />,
         ]}
         style={{
           padding: '20px 0px',
+          direction:langDirection
         }}
       ></PageHeader>
 

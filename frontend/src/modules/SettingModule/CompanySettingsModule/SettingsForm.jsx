@@ -1,13 +1,10 @@
 import { Form, Input, InputNumber, Select, Switch } from 'antd';
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 import useLanguage from '@/locale/useLanguage';
+import { useSelector } from 'react-redux';
+import { selectLangDirection } from '@/redux/translate/selectors';
 
 const formItems = [
-  {
-    label: 'mutli_branch',
-    settingKey: 'company_has_mutli_branch',
-    valueType: 'boolean',
-  },
   {
     settingKey: 'company_name',
     valueType: 'string',
@@ -33,10 +30,6 @@ const formItems = [
     valueType: 'string',
   },
   {
-    settingKey: 'company_cell',
-    valueType: 'string',
-  },
-  {
     settingKey: 'company_website',
     valueType: 'string',
   },
@@ -51,15 +44,16 @@ const formItems = [
   },
   {
     settingKey: 'company_reg_number',
-    settingValue: ['company_reg_number'],
-    valueType: 'number',
+    valueType: 'string',
   },
 ];
 
 export default function SettingForm() {
   const translate = useLanguage();
+  const langDirection=useSelector(selectLangDirection)
+
   return (
-    <>
+    <div style={{direction:langDirection}}>
       {formItems.map((item) => {
         return (
           <Form.Item
@@ -68,7 +62,7 @@ export default function SettingForm() {
             name={item.settingKey}
             rules={[
               {
-                required: true,
+                required: false,
               },
             ]}
             valuePropName={item.valueType === 'boolean' ? 'checked' : 'value'}
@@ -90,6 +84,6 @@ export default function SettingForm() {
           </Form.Item>
         );
       })}
-    </>
+    </div>
   );
 }

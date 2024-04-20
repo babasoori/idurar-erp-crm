@@ -1,6 +1,8 @@
 import { Form, Input, InputNumber, Select, Switch } from 'antd';
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 import useLanguage from '@/locale/useLanguage';
+import { useSelector } from 'react-redux';
+import { selectLangDirection } from '@/redux/translate/selectors';
 
 const formItems = [
   {
@@ -23,47 +25,34 @@ const formItems = [
     settingKey: 'last_payment_number',
     valueType: 'number',
   },
-  {
-    label: 'invoice_prefix',
-    settingKey: 'invoice_prefix',
-    valueType: 'string',
-  },
-  {
-    label: 'quote_prefix',
-    settingKey: 'quote_prefix',
-    valueType: 'string',
-  },
-  {
-    label: 'offer_prefix',
-    settingKey: 'offer_prefix',
-    valueType: 'string',
-  },
-  {
-    label: 'payment_prefix',
-    settingKey: 'payment_prefix',
-    valueType: 'string',
-  },
-  {
-    label: 'current_invoice_year',
-    settingKey: 'current_invoice_year',
-    valueType: 'number',
-  },
-  {
-    label: 'current_quote_year',
-    settingKey: 'current_quote_year',
-    valueType: 'number',
-  },
-  {
-    label: 'current_offer_year',
-    settingKey: 'current_offer_year',
-    valueType: 'number',
-  },
+  // {
+  //   label: 'invoice_prefix',
+  //   settingKey: 'invoice_prefix',
+  //   valueType: 'string',
+  // },
+  // {
+  //   label: 'quote_prefix',
+  //   settingKey: 'quote_prefix',
+  //   valueType: 'string',
+  // },
+  // {
+  //   label: 'offer_prefix',
+  //   settingKey: 'offer_prefix',
+  //   valueType: 'string',
+  // },
+  // {
+  //   label: 'payment_prefix',
+  //   settingKey: 'payment_prefix',
+  //   valueType: 'string',
+  // },
 ];
 
 export default function SettingForm() {
   const translate = useLanguage();
+  const langDirection=useSelector(selectLangDirection)
+
   return (
-    <>
+    <div style={{direction:langDirection}}>
       {formItems.map((item) => {
         return (
           <Form.Item
@@ -94,6 +83,6 @@ export default function SettingForm() {
           </Form.Item>
         );
       })}
-    </>
+    </div>
   );
 }

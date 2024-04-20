@@ -1,45 +1,30 @@
-import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Avatar, Dropdown, Layout } from 'antd';
 
 // import Notifications from '@/components/Notification';
 
-import { SettingOutlined, LogoutOutlined } from '@ant-design/icons';
-
-import { checkImage } from '@/request';
+import { SettingOutlined, LogoutOutlined, AppstoreOutlined, ToolOutlined, UserOutlined } from '@ant-design/icons';
 
 import { selectCurrentAdmin } from '@/redux/auth/selectors';
 
-import { useNavigate } from 'react-router-dom';
-
-import { BASE_URL } from '@/config/serverApiConfig';
+import { FILE_BASE_URL } from '@/config/serverApiConfig';
 
 import useLanguage from '@/locale/useLanguage';
 import SelectLanguage from '@/components/SelectLanguage';
+import ChooseCurrency from '@/components/ChooseCurrency';
 
 import UpgradeButton from './UpgradeButton';
+import AppsButton from './AppsButton';
+import { selectLangDirection } from '@/redux/translate/selectors';
 
 export default function HeaderContent() {
   const currentAdmin = useSelector(selectCurrentAdmin);
   const { Header } = Layout;
 
+  let location = useLocation();
+
   const translate = useLanguage();
-
-  const [hasPhotoprofile, setHasPhotoprofile] = useState(false);
-
-  useEffect(() => {
-    async function fetchData() {
-      if (currentAdmin?.photo) {
-        const result = await checkImage(BASE_URL + currentAdmin?.photo);
-        setHasPhotoprofile(result);
-      }
-    }
-    fetchData();
-    return () => {
-      return false;
-    };
-  }, []);
 
   const ProfileDropdown = () => {
     const navigate = useNavigate();
@@ -48,8 +33,12 @@ export default function HeaderContent() {
         <Avatar
           size="large"
           className="last"
-          src={hasPhotoprofile ? BASE_URL + currentAdmin?.photo : null}
-          style={{ color: '#f56a00', backgroundColor: !hasPhotoprofile ? '#fde3cf' : '#f9fafc' }}
+          src={currentAdmin?.photo ? FILE_BASE_URL + currentAdmin?.photo : undefined}
+          style={{
+            color: '#f56a00',
+            backgroundColor: currentAdmin?.photo ? 'none' : '#fde3cf',
+            boxShadow: 'rgba(150, 190, 238, 0.35) 0px 0px 6px 1px',
+          }}
         >
           {currentAdmin?.name?.charAt(0)?.toUpperCase()}
         </Avatar>
@@ -76,7 +65,7 @@ export default function HeaderContent() {
       type: 'divider',
     },
     {
-      icon: <SettingOutlined />,
+      icon: <UserOutlined />,
       key: 'settingProfile',
       label: (
         <Link to={'/profile'}>
@@ -85,7 +74,7 @@ export default function HeaderContent() {
       ),
     },
     {
-      icon: <SettingOutlined />,
+      icon: <ToolOutlined />,
       key: 'settingApp',
       label: <Link to={'/settings'}>{translate('app_settings')}</Link>,
     },
@@ -100,14 +89,16 @@ export default function HeaderContent() {
       label: <Link to={'/logout'}>{translate('logout')}</Link>,
     },
   ];
+
+  const langDirection=useSelector(selectLangDirection)
   return (
     <Header
       style={{
         padding: '20px',
         background: '#f9fafc',
-        display: ' flex',
-        flexDirection: ' row-reverse',
-        justifyContent: ' flex-start',
+        display: 'flex',
+        flexDirection: langDirection==="rtl"?"row":'row-reverse',
+        justifyContent: 'flex-start',
         gap: ' 15px',
       }}
     >
@@ -122,10 +113,11 @@ export default function HeaderContent() {
         {/* <Badge dot> */}
         <Avatar
           className="last"
-          src={hasPhotoprofile ? BASE_URL + currentAdmin?.photo : null}
+          src={currentAdmin?.photo ? FILE_BASE_URL + currentAdmin?.photo : undefined}
           style={{
             color: '#f56a00',
-            backgroundColor: !hasPhotoprofile ? '#fde3cf' : '#f9fafc',
+            backgroundColor: currentAdmin?.photo ? 'none' : '#fde3cf',
+            boxShadow: 'rgba(150, 190, 238, 0.35) 0px 0px 10px 2px',
             float: 'right',
             cursor: 'pointer',
           }}
@@ -136,9 +128,13 @@ export default function HeaderContent() {
         {/* </Badge> */}
       </Dropdown>
 
+      {/* <AppsButton /> */}
+
       <UpgradeButton />
 
       <SelectLanguage />
+
+      {location.pathname === '/' && <ChooseCurrency />}
     </Header>
   );
 }

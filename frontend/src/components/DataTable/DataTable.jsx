@@ -6,8 +6,10 @@ import {
   DeleteOutlined,
   EllipsisOutlined,
   RedoOutlined,
+  ArrowRightOutlined,
+  ArrowLeftOutlined,
 } from '@ant-design/icons';
-import { Dropdown, Table, Button } from 'antd';
+import { Dropdown, Table, Button, Input } from 'antd';
 import { PageHeader } from '@ant-design/pro-layout';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -20,6 +22,7 @@ import { useMoney, useDate } from '@/settings';
 import { generate as uniqueId } from 'shortid';
 
 import { useCrudContext } from '@/context/crud';
+import { selectLangDirection } from '@/redux/translate/selectors';
 
 function AddNewItem({ config }) {
   const { crudContextAction } = useCrudContext();
@@ -38,7 +41,7 @@ function AddNewItem({ config }) {
   );
 }
 export default function DataTable({ config, extra = [] }) {
-  let { entity, dataTableColumns, DATATABLE_TITLE, fields } = config;
+  let { entity, dataTableColumns, DATATABLE_TITLE, fields, searchConfig } = config;
   const { crudContextAction } = useCrudContext();
   const { panel, collapsedBox, modal, readBox, editBox, advancedBox } = crudContextAction;
   const translate = useLanguage();
@@ -155,6 +158,12 @@ export default function DataTable({ config, extra = [] }) {
     dispatch(crud.list({ entity, options }));
   }, []);
 
+  const filterTable = (e) => {
+    const value = e.target.value;
+    const options = { q: value, fields: searchConfig?.searchFields || '' };
+    dispatch(crud.list({ entity, options }));
+  };
+
   const dispatcher = () => {
     dispatch(crud.list({ entity }));
   };
@@ -167,19 +176,31 @@ export default function DataTable({ config, extra = [] }) {
     };
   }, []);
 
+  const langDirection=useSelector(selectLangDirection)
+
   return (
     <>
       <PageHeader
         onBack={() => window.history.back()}
+        backIcon={langDirection==="rtl"?<ArrowRightOutlined/>:<ArrowLeftOutlined />}
         title={DATATABLE_TITLE}
         ghost={false}
         extra={[
-          <Button onClick={handelDataTableLoad} key={`${uniqueId()}`} icon={<RedoOutlined />} />,
+          <Input
+            key={`searchFilterDataTable}`}
+            onChange={filterTable}
+            placeholder={translate('search')}
+            allowClear
+          />,
+          <Button onClick={handelDataTableLoad} key={`${uniqueId()}`} icon={<RedoOutlined />}>
+            {translate('Refresh')}
+          </Button>,
 
           <AddNewItem key={`${uniqueId()}`} config={config} />,
         ]}
         style={{
           padding: '20px 0px',
+          direction:langDirection
         }}
       ></PageHeader>
 
