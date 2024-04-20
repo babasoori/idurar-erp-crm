@@ -8,7 +8,8 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js --ignore public/",
-    "test": "SET NODE_ENV=test & jest --coverage",
+    "test": "SET NODE_ENV=test & jest",
+    "test:coverage": "SET NODE_ENV=test & jest --coverage",
     "production": "NODE_ENV=production",
     "translate": "node src/aiTranslate/index.js",
     "features": "node src/aiFeatures/index.js",

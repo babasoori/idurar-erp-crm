@@ -1,6 +1,5 @@
 const listAll = require('../src/controllers/middlewaresControllers/createCRUDController/listAll')
 
-const supertest = require('supertest')
 const {MongoMemoryServer} = require("mongodb-memory-server");
 const mongoose = require("mongoose");
 const Email = require("../src/models/coreModels/Email")
