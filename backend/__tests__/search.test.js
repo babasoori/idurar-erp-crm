@@ -1,10 +1,10 @@
-const remove = require('../src/controllers/middlewaresControllers/createCRUDController/remove')
+const search = require('../src/controllers/middlewaresControllers/createCRUDController/search')
 
 const {MongoMemoryServer} = require("mongodb-memory-server");
 const mongoose = require("mongoose");
 const Email = require("../src/models/coreModels/Email")
 
-describe('remove function ', () => {
+describe('search function ', () => {
     let mongo
     let mockedRes
     let mockedReq
@@ -17,8 +17,9 @@ describe('remove function ', () => {
 
         await mongoose.connect(mongo.getUri());
         mockedReq = {
-            params:{
-                id:null
+            query: {
+                fields: null,
+                q: null
             }
         }
         mockedRes = {
@@ -39,14 +40,14 @@ describe('remove function ', () => {
                 emailKey: 'email2',
                 emailName: 'Email Two',
                 emailBody: 'Body Two',
-                emailSubject: 'Subject Two',
+                emailSubject: 'Subject One',
                 created: new Date(2021, 0, 2)
             },
             {
                 emailKey: 'email3',
                 emailName: 'Email Three',
                 emailBody: 'Body Three',
-                emailSubject: 'Subject Three',
+                emailSubject: 'Subject One',
                 created: new Date(2021, 0, 3)
             },
         ];
@@ -58,38 +59,39 @@ describe('remove function ', () => {
         await mongoose.disconnect()
         await mongo.stop()
     })
-    it('should remove an email by id', async () => {
-        const email = await Email.findOne({emailName: "Email Three"}).exec()
-        mockedReq.params.id = email._id
-        await remove(Email, mockedReq, mockedRes)
+    it('should search for emails by emailSubject', async () => {
+        mockedReq.query.fields = 'emailSubject'
+        mockedReq.query.q = 'Subject One'
+        await search(Email, mockedReq, mockedRes)
         expect(mockedRes.json).toBeCalledWith(expect.objectContaining({
                 success: true,
-                result : expect.anything(),
-                message: 'Successfully Deleted the document ',
+                result: expect.arrayContaining([expect.anything()]),
+                message: 'Successfully found all documents',
             }
         ))
         expect(mockedRes.status).toBeCalledWith(200)
-
+        const result = mockedRes.json.mock.calls[0][0].result;
+        expect(result.length).toBe(3);
     });
 
-    it('should return 404 when email is not found', async () => {
-        const email = await Email.findOne({emailName: "Email Three"}).exec()
-        await Email.deleteMany({})
-        mockedReq.params.id = email._id
-        await remove(Email, mockedReq, mockedRes)
+    it('should return 202 when no email is found', async () => {
+        mockedReq.query.fields = 'emailSubject'
+        mockedReq.query.q = 'Subject'
+        await search(Email, mockedReq, mockedRes)
         expect(mockedRes.json).toBeCalledWith(expect.objectContaining({
                 success: false,
-                result : null,
-                message: 'No document found ',
+                result: [],
+                message: 'No document found by this request',
             }
         ))
-        expect(mockedRes.status).toBeCalledWith(404)
-
+        expect(mockedRes.status).toBeCalledWith(202)
+        const result = mockedRes.json.mock.calls[0][0].result;
+        expect(result.length).toBe(0);
     });
 
-    it('should handle error in id input', async () => {
-        mockedReq.params.id = 'hello'
-        await expect(remove(Email, mockedReq, mockedRes)).rejects.toThrow("Invalid _id value: { _id: hello }");
+    it('should handle error in query input', async () => {
+        mockedReq.query = null
+        await expect(search(Email, mockedReq, mockedRes)).rejects.toThrow("additional query parameters missing");
     });
 
 })

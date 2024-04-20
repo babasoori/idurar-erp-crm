@@ -1,10 +1,10 @@
-const remove = require('../src/controllers/middlewaresControllers/createCRUDController/remove')
+const read = require('../src/controllers/middlewaresControllers/createCRUDController/read')
 
 const {MongoMemoryServer} = require("mongodb-memory-server");
 const mongoose = require("mongoose");
 const Email = require("../src/models/coreModels/Email")
 
-describe('remove function ', () => {
+describe('read function ', () => {
     let mongo
     let mockedRes
     let mockedReq
@@ -17,8 +17,8 @@ describe('remove function ', () => {
 
         await mongoose.connect(mongo.getUri());
         mockedReq = {
-            params:{
-                id:null
+            params: {
+                id: null
             }
         }
         mockedRes = {
@@ -58,14 +58,14 @@ describe('remove function ', () => {
         await mongoose.disconnect()
         await mongo.stop()
     })
-    it('should remove an email by id', async () => {
+    it('should read an email by id', async () => {
         const email = await Email.findOne({emailName: "Email Three"}).exec()
         mockedReq.params.id = email._id
-        await remove(Email, mockedReq, mockedRes)
+        await read(Email, mockedReq, mockedRes)
         expect(mockedRes.json).toBeCalledWith(expect.objectContaining({
                 success: true,
-                result : expect.anything(),
-                message: 'Successfully Deleted the document ',
+                result: expect.anything(),
+                message: 'we found this document ',
             }
         ))
         expect(mockedRes.status).toBeCalledWith(200)
@@ -76,10 +76,10 @@ describe('remove function ', () => {
         const email = await Email.findOne({emailName: "Email Three"}).exec()
         await Email.deleteMany({})
         mockedReq.params.id = email._id
-        await remove(Email, mockedReq, mockedRes)
+        await read(Email, mockedReq, mockedRes)
         expect(mockedRes.json).toBeCalledWith(expect.objectContaining({
                 success: false,
-                result : null,
+                result: null,
                 message: 'No document found ',
             }
         ))
@@ -89,7 +89,7 @@ describe('remove function ', () => {
 
     it('should handle error in id input', async () => {
         mockedReq.params.id = 'hello'
-        await expect(remove(Email, mockedReq, mockedRes)).rejects.toThrow("Invalid _id value: { _id: hello }");
+        await expect(read(Email, mockedReq, mockedRes)).rejects.toThrow("Invalid _id value: { _id: hello }");
     });
 
 })
