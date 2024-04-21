@@ -105,6 +105,20 @@ describe('ST-002', () => {
     cy.focused().type('{downarrow}');
     cy.focused().type('{enter}');
     cy.get(PHONE_PATH).type('123456789012345670');
+    cy.get(EMAIL_PATH).type("sosewerfwerwere");
+    cy.get(WEBSITE_PATH).type('doesnotexist');
+    cy.get(SUBMIT_BUTTON_PATH).click();
+  });
+
+  it('ST2-007', () => {
+    cy.get(NAME_PATH).type('Best Company new new new');
+    cy.get(CONTACT_PATH).type('John Doe');
+    cy.focused().type('{downarrow}');
+    cy.focused().type('{enter}');
+    cy.get(COUNTRY_PATH).type('Canada');
+    cy.focused().type('{downarrow}');
+    cy.focused().type('{enter}');
+    cy.get(PHONE_PATH).type('123456789012345670');
     cy.get(EMAIL_PATH).type("fake@fake.com");
     cy.get(WEBSITE_PATH).type('doesnotexist');
     cy.get(SUBMIT_BUTTON_PATH).click();
@@ -113,7 +127,7 @@ describe('ST-002', () => {
 
 
 
-describe('ST-002', () => {
+describe('ST-005', () => {
 
   beforeEach(() => {
     cy.visit('http://localhost:3000/login');
@@ -125,18 +139,13 @@ describe('ST-002', () => {
     cy.contains('button', 'Add New Company', { timeout: 10000 }).click();
   });
 
-  it('ST2-001', () => {
+  it('ST5-001', () => {
     cy.get(SEARCH_COMPANY_PATH).type('Best Company');
     cy.wait(1000);
     cy.focused().type('{downarrow}');
     cy.focused().type('{enter}');
     cy.get(EDIT_COMPANY_PATH).click();
     cy.get(EDIT_NAME_PATH).clear().type('Best of the Best Company');
-    // FIXME - This is not working
-    // cy.get(EDIT_CONTACT_PATH).click() //type('John Doe');
-    // cy.wait(1000);
-    // cy.focused().type('{downarrow}', {force: true});
-    // cy.focused().type('{enter}', {force: true});
 
     cy.get(EDIT_COUNTRY_PATH).click()
     cy.wait(1000);
@@ -149,18 +158,13 @@ describe('ST-002', () => {
   });
 
 
-  it('ST2-002', () => {
+  it('ST5-002', () => {
     cy.get(SEARCH_COMPANY_PATH).type('Best Company');
     cy.wait(1000);
     cy.focused().type('{downarrow}');
     cy.focused().type('{enter}');
     cy.get(EDIT_COMPANY_PATH).click();
     cy.get(EDIT_NAME_PATH).clear().type('%$$#$$#@@#$$%');
-    // FIXME - This is not working
-    // cy.get(EDIT_CONTACT_PATH).click() //type('John Doe');
-    // cy.wait(1000);
-    // cy.focused().type('{downarrow}', {force: true});
-    // cy.focused().type('{enter}', {force: true});
 
     cy.get(EDIT_COUNTRY_PATH).click()
     cy.wait(1000);
@@ -172,7 +176,7 @@ describe('ST-002', () => {
     cy.get(SAVE_BUTTON_PATH).click();
   });
 
-  it('ST2-003', () => {
+  it('ST5-003', () => {
     cy.get(SEARCH_COMPANY_PATH).type('Best Company');
     cy.wait(1000);
     cy.focused().type('{downarrow}');
@@ -194,18 +198,13 @@ describe('ST-002', () => {
     cy.get(SAVE_BUTTON_PATH).click();
   });
 
-  it('ST2-004', () => {
+  it('ST5-004', () => {
     cy.get(SEARCH_COMPANY_PATH).type('Best Company');
     cy.wait(1000);
     cy.focused().type('{downarrow}');
     cy.focused().type('{enter}');
     cy.get(EDIT_COMPANY_PATH).click();
     cy.get(EDIT_NAME_PATH).clear().type('Best of the Best Company');
-    // FIXME - This is not working
-    // cy.get(EDIT_CONTACT_PATH).click() //type('John Doe');
-    // cy.wait(1000);
-    // cy.focused().type('{downarrow}', {force: true});
-    // cy.focused().type('{enter}', {force: true});
 
     cy.get(EDIT_COUNTRY_PATH).type('DOES NOT EXIST');
     cy.wait(1000);
@@ -218,18 +217,13 @@ describe('ST-002', () => {
   });
 
 
-  it('ST2-005', () => {
+  it('ST5-005', () => {
     cy.get(SEARCH_COMPANY_PATH).type('Best Company');
     cy.wait(1000);
     cy.focused().type('{downarrow}');
     cy.focused().type('{enter}');
     cy.get(EDIT_COMPANY_PATH).click();
     cy.get(EDIT_NAME_PATH).clear().type('Best of the Best Company');
-    // FIXME - This is not working
-    // cy.get(EDIT_CONTACT_PATH).click() //type('John Doe');
-    // cy.wait(1000);
-    // cy.focused().type('{downarrow}', {force: true});
-    // cy.focused().type('{enter}', {force: true});
 
     cy.get(EDIT_COUNTRY_PATH).click()
     cy.wait(1000);
@@ -241,19 +235,30 @@ describe('ST-002', () => {
     cy.get(SAVE_BUTTON_PATH).click();
   });
 
-  it('ST2-006', () => {
+  it('ST5-006', () => {
     cy.get(SEARCH_COMPANY_PATH).type('Best Company');
     cy.wait(1000);
     cy.focused().type('{downarrow}');
     cy.focused().type('{enter}');
     cy.get(EDIT_COMPANY_PATH).click();
     cy.get(EDIT_NAME_PATH).clear().type('Best of the Best Company');
-    // FIXME - This is not working
-    // cy.get(EDIT_CONTACT_PATH).click() //type('John Doe');
-    // cy.wait(1000);
-    // cy.focused().type('{downarrow}', {force: true});
-    // cy.focused().type('{enter}', {force: true});
+    cy.get(EDIT_COUNTRY_PATH).click()
+    cy.wait(1000);
+    cy.focused().type('{downarrow}', {force: true});
+    cy.focused().type('{enter}', {force: true});
+    cy.get(EDIT_PHONE_PATH).clear().type('0987654321');
+    cy.get(EDIT_EMAIL_PATH).clear().type("notrealnotrealcom");
+    cy.get(EDIT_WEBSITE_PATH).clear().type('www.notrealnotreal.com');
+    cy.get(SAVE_BUTTON_PATH).click();
+  });
 
+  it('ST5-007', () => {
+    cy.get(SEARCH_COMPANY_PATH).type('Best Company');
+    cy.wait(1000);
+    cy.focused().type('{downarrow}');
+    cy.focused().type('{enter}');
+    cy.get(EDIT_COMPANY_PATH).click();
+    cy.get(EDIT_NAME_PATH).clear().type('Best of the Best Company');
     cy.get(EDIT_COUNTRY_PATH).click()
     cy.wait(1000);
     cy.focused().type('{downarrow}', {force: true});

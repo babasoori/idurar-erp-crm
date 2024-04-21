@@ -59,7 +59,7 @@ describe('ST-003', () => {
 });
 
 
-describe('ST-003', () => {
+describe('ST-006', () => {
 
     beforeEach(() => {
         cy.visit('http://localhost:3000/login');
